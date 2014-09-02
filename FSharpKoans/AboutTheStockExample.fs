@@ -57,6 +57,13 @@ module ``about the stock example`` =
 
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
+        let data = stockData.Tail
+        let day, _ = 
+            data 
+            |> List.map (fun x -> x.Split[|','|]) // returns [[|"2012-03-30"; "32.40"; "32.41"; "32.04"; "32.26"; "31749400"; "32.26"|]; [|"2012-03-29"; "32.06"; "32.19"; "31.81"; "32.12"; "37038500"; "32.12"|]; ...];
+            |> List.map (fun x-> (x.[0], abs <| (System.Double.Parse x.[1] - System.Double.Parse x.[6]))) // returns [("2012-03-30", 0.14); ("2012-03-29", 0.06); ("2012-03-28", 0.33); ("2012-03-27", 0.13); ("2012-03-26", 0.4); ("2012-03-23", 0.09); ...]; 
+            |> Seq.maxBy (fun x -> snd x)
+
+        let result =  day
         
         AssertEquality "2012-03-13" result
